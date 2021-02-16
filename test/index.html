@@ -1,0 +1,90 @@
+<html>
+<head>
+<link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine/jasmine_favicon.png">
+<link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine/jasmine.css">
+
+<script type="text/javascript" src="jasmine/lib/jasmine/jasmine.js"></script>
+<script type="text/javascript" src="jasmine/lib/jasmine/jasmine-html.js"></script>
+<script type="text/javascript" src="jasmine/lib/jasmine/boot.js"></script>
+<script type="text/javascript" src="app.js"></script>
+
+    <!-- link afkomstig van https://cdnjs.com/libraries/jquery/ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="../js/feedbackWidget.js"></script>
+    <script src="../js/Game.js"></script>
+    <script src="js/Game.Reversi.js"></script>
+    <script src="js/Game.Model.js"></script>
+    <script src="js/Game.Data.js"></script>
+
+</head>
+<body>
+
+<div id="feedback-success" class="alert alert-success" role="alert">
+    <p>Veel succes met deze module!</p>
+</div>
+
+<div id="feedback-danger" class="alert alert-danger" role="alert" style="display:none">
+    <p>Pas op voor loslopende bits.</p>
+</div>
+
+<script>
+beforeAll(function(done) {
+  $(function(){
+    done();
+  });
+});
+
+describe("Check if feedback widget is defined", function() {
+  it("Feedback widget is defined", function() {
+    expect($("#feedback-succes")).toBeDefined();
+   })
+});
+
+describe("Check if feedback widget is hidden", function() {
+  it("Feedback widget is hidden", function() {
+    let widget = new FeedbackWidget("feedback-success")
+    widget.hide();
+    expect($("#feedback-success").attr('style')).toBe('display: none;');
+   })
+});
+
+describe("A suite", function() {
+  it("contains spec with an expectation", function() {
+    expect(true).toBe(true);
+  });
+});
+
+describe("Application initialisation", function() {
+  it("Method init returns true", function() {
+  	const result = myApp.init();
+    expect(result).toBe(true);
+  });
+});
+
+describe("Game is globaal", function(){
+  it("Game kan gevonden worden", function(){
+    expect(Game).toBeDefined();
+  });
+});
+
+describe("Game is beschikbaar met function init", function(){
+  it("Game is beschikbaar", function(){
+    expect(Game.init()).toBeUndefined();
+  });
+});
+
+describe("Game is beschikbaar met function init", function(){
+  it("Game.Data.init is beschikbaar", function(){
+    expect(Game.Data.init()).toBeUndefined();
+  });
+});
+describe("Game is beschikbaar met function init", function(){
+  it("Game.Model,init is beschikbaar", function(){
+    expect(Game.Model.init()).toBeUndefined();
+  });
+});
+</script>
+
+
+</body>
+</html>
