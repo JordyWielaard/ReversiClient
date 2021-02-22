@@ -14,26 +14,25 @@ Game.Data = (function (url) {
         ]
     };
 
-    const getMockData = function () {
+    const getMockData = function (url) {
         const mockData = configMap["mock"]
         return new Promise((resolve, reject) => {
             resolve(mockData);
         });
     }
 
-    const getRealData = function(url){
-        return new Promise((resolve, reject) => {
-            $.get(url).then(data => { resolve(data)})
-        });
-    }
-
-    //ombouwen naar een promise
     const get = function (url) {
         switch(stateMap){
             case 'production':
-                return getRealData(url);
+                return $.get(url)
+                .then(r => {
+                    return r
+                })
+                .catch(e => {
+                    console.log(e.message);
+                });
             case 'development':
-                return getMockData();
+                return getMockData(url);
         }
     }
 
@@ -41,6 +40,7 @@ Game.Data = (function (url) {
     const privateInit = function (environment) {
         if(environment == 'production' || environment == 'development'){
             stateMap = environment;
+            get("http://api.openweathermap.org/data/2.5/weather?q=zwolle&apikey=68a956cfaf34f3905b3bad7e40532b14").then(data => console.log(data));
         }else{
             new Error("Enviroment heeft een verkeerde waarde");
         }

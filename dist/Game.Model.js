@@ -20,21 +20,20 @@ Game.Model = (function(url) {
         });   
         console.log(promise.then())  
     }
-    //moet promise worden
-    const _getGameState = (function(token){
-        return new Promise((resolve, reject) => {
-            Game.Data.get("/api/Spel/Beurt/" + token).then(data => {
-                switch(data){
-                    case 0:
-                        resolve("Geen specifieke waarde");
-                    case 1:
-                        resolve("Wit is aan zet")
-                    case 2:
-                        resolve("Zwart is aan zet")             
-                }
-            });
-        });
-    });
+    
+    const _getGameState = function(token){
+        //aanvraag via Game.Data
+        let state = Game.Data.get("/api/Spel/Beurt/" + token);
+        //controle of ontvangen data valide is
+        switch(state){
+            case 0:
+                return "Geen specifieke waarde"
+            case 1:
+                return "Wit is aan zet"
+            case 2:
+                return "Zwart is aan zet"             
+        }
+    };
         
     // Private function init
     const privateInit = function(){

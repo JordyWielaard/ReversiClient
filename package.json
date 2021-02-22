@@ -1,0 +1,30 @@
+{
+  "name": "reversiclient",
+  "version": "1.0.0",
+  "description": "School project",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JordyWielaard/ReversiClient.git"
+  },
+  "author": "Jordy Wielaard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JordyWielaard/ReversiClient/issues"
+  },
+  "homepage": "https://github.com/JordyWielaard/ReversiClient#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/preset-env": "^7.12.16",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-order": "^1.2.0"
+  }
+}
