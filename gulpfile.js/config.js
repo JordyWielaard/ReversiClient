@@ -20,10 +20,14 @@ module.exports = {
         vendor:[
             './vendor/*.js'
         ],
-        
+
         templates:[
-            'templates/**/*.hbs'
-        ]
+            './templates/**/[^_]*.hbs'
+        ],
+
+        partials:[
+            './templates/**/_*.hbs'
+           ], 
 
     },
     voornaam: 'Jordy Wielaard',
