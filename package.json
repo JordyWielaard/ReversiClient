@@ -23,8 +23,17 @@
     "@babel/core": "^7.12.16",
     "@babel/preset-env": "^7.12.16",
     "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
-    "gulp-order": "^1.2.0"
-  }
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-order": "^1.2.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-uglifyjs": "^0.6.2",
+    "gulp-watch": "^5.0.1"
+  },
+  "dependencies": {}
 }

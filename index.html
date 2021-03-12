@@ -24,20 +24,30 @@
     <script src="js/Game.Reversi.js"></script>
     <script src="js/Game.Model.js"></script>
     <script src="js/Game.Data.js"></script>
+    <script src="https://kit.fontawesome.com/7a5c6938c3.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sass/style.scss">
+    <link rel="stylesheet" href="./dist/css/style.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
 <body>
 
-
-<div id="feedback" class="alert alert-success" role="alert">
-    <p>Veel succes met deze module!</p>
-</div>
-
-<!-- <div id="feedback-danger" class="alert alert-danger" role="alert" style="display:none">
-    <p>Pas op voor loslopende bits.</p>
-</div> -->
-
-<button id="selector" type="button">Ok</button>
+<section id="feedback" class="alert alert-success fadeIn" role="alert">
+    <div class="exitIcon">
+        <i class="fas fa-times fa-3x"></i>
+    </div>    
+    <div class="textColorGray leftDiv">       
+        <i class="fas fa-check fa-2x iconVisable"></i>
+        <p class="textSize">Mike wil deelnemen aan jouw spel. Geef akkoord.</p>
+    </div>
+    <div class="rightDiv">
+        <button class="button1 button-bibber" type="button">Akkoord</button>
+        <button class="button1" type="button">Weigeren</button>
+    </div>
+</section>
 
 <script>
     function toggleFeedback(elementId) {
@@ -55,9 +65,11 @@
 
     $(function(){
         Game.init(afterInit);
-        })
-
+        Game.Reversi.printBord()
+    })
 </script>
+
+
 
 </body>
 </html>

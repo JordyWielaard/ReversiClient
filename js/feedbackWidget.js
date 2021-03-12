@@ -46,11 +46,13 @@ class FeedbackWidget{
             $("#feedback").removeClass("alert alert-success")
             $("#feedback").addClass("alert alert-danger")
         }
-        document.getElementById(this._elementId).style.display = "block";
+        $("#feedback").removeClass("fadeOut")
+        $("#feedback").addClass("fadeIn")
         this.log({message: message, type: type})
     }
 
     hide(){
-        document.getElementById(this._elementId).style.display = "none";
+        $("#feedback").removeClass("fadeIn")
+        $("#feedback").addClass("fadeOut")        
     } 
 }
