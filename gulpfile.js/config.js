@@ -15,7 +15,16 @@ module.exports = {
 
         html: [
             './*.html'
+        ],
+
+        vendor:[
+            './vendor/*.js'
+        ],
+        
+        templates:[
+            'templates/**/*.hbs'
         ]
+
     },
     voornaam: 'Jordy Wielaard',
 
