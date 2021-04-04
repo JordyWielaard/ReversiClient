@@ -22,6 +22,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/preset-env": "^7.12.16",
+    "browser-sync": "^2.26.14",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
@@ -39,5 +40,7 @@
     "gulp-wrap": "^0.15.0",
     "merge-stream": "^2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "chart.js": "^2.9.4"
+  }
 }

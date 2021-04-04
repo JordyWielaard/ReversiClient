@@ -1,11 +1,8 @@
-Game.Data = (function (url) {
-    console.log('hallo, vanuit module Data')
-
-    let stateMap = { environment : 'development' }
+Game.Data = (function () {
+    let stateMap = { environment : 'production' }
 
     //Configuratie en state waarden
     let configMap = {
-        apiKey: "68a956cfaf34f3905b3bad7e40532b14",
         mock: [
             {
                 url: "api/Spel/Beurt",
@@ -14,27 +11,64 @@ Game.Data = (function (url) {
         ]
     };
 
+    //pakt de mockdata
     const getMockData = function () {
-        const mockData = configMap["mock"]
-        return new Promise((resolve, reject) => {
+        const mockData = configMap["mock"][0]["data"]
+        return new Promise(function(resolve, reject) {
             resolve(mockData);
         });
     }
 
+    // haalt de data op uit de api
     const getRealData = function(url){
+        console.log(url)
         return new Promise((resolve, reject) => {
-            $.get(url).then(data => { resolve(data)})
+            $.ajax({
+                url: url,
+                data: { },
+                success: function (data) {
+                   resolve(data);
+                },
+                error: function (data) {
+                    reject(data);
+                },
+                type: "GET"
+            });
         });
     }
 
-    //ombouwen naar een promise
+    //Post data naar de api
+    const postData = function(url, data){
+        console.log(url)
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: url,
+                data: JSON.stringify(data),
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }, 
+                success: function (data) {
+                   resolve(data);
+                },
+                error: function (data) {
+                    reject(data);
+                },
+                type: "POST"
+            });
+        });
+    }
+
+
+    //roept de juiste get funtie aan op basis van de stateMap
     const get = function (url) {
-        switch(stateMap){
-            case 'production':
-                return getRealData(url);
-            case 'development':
-                return getMockData();
-        }
+        return new Promise(function(resolve, reject) {
+            if(stateMap == 'production'){
+                resolve(getRealData(url));
+            }else{
+                reject(getMockData())
+            }
+        })
     }
 
     // Private function init
@@ -44,12 +78,13 @@ Game.Data = (function (url) {
         }else{
             new Error("Enviroment heeft een verkeerde waarde");
         }
-        console.log(configMap.apiUrl);
     };
 
     // Waarde/object geretourneerd aan de outer scope
     return {
         init: privateInit,
-        get: get
+        get: get,
+        getRealData, getRealData,
+        post: postData
     };
-})('/api/url');
+})();

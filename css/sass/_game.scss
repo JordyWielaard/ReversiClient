@@ -1,0 +1,217 @@
+#spelBord {
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    display: block;
+}
+
+.text-speler {
+    font-weight: bold;
+    font-size: 50px;
+    color: green;
+    text-align: center;
+    padding-right: 50px;
+}
+
+.text-1 {
+    font-weight: bold;
+    font-size: large;
+    color: blue;
+}
+
+.text-2 {
+    color: black;
+    font-size: large;
+}
+
+#bord {
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    .bordTegel {
+        width: 12.5%;
+        height: 75px;
+        background-color: green;
+        border-style: solid;
+        border-color: $border-Color;
+        border-width: 1px;
+        .fiche-0 {
+            height: 100%;
+            width: 100%;
+        }
+        .fiche-1 {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(315deg, transparent 75%, #757473 0)-10px 0, linear-gradient(45deg, transparent 75%, #999594 0)-10px 0, linear-gradient(135deg, #9e9999 50%, transparent 0) 0 0, linear-gradient(45deg, #e0d9d8 50%, #ffffff 0) 0 0 #ffffff;
+            background-size: 20px 20px;
+            border-radius: 50%;
+            border-style: solid;
+            border-color: $border-Color;
+        }
+        .fiche-2 {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(315deg, transparent 75%, #ffffff 0)-10px 0, linear-gradient(45deg, transparent 75%, #b1adad 0)-10px 0, linear-gradient(135deg, #4d4b4b 50%, transparent 0) 0 0, linear-gradient(45deg, #333333 50%, #000000 0) 0 0 #000000;
+            background-size: 20px 20px;
+            border-radius: 50%;
+            border-style: solid;
+            border-color: $border-Color;
+        }
+        .fiche-3 {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(315deg, transparent 75%, #757473 0)-10px 0, linear-gradient(45deg, transparent 75%, #999594 0)-10px 0, linear-gradient(135deg, #9e9999 50%, transparent 0) 0 0, linear-gradient(45deg, #e0d9d8 50%, #ffffff 0) 0 0 #ffffff;
+            background-size: 20px 20px;
+            border-radius: 50%;
+            border-style: solid;
+            border-color: $border-Color;
+            animation: fadeIn 1s;
+            animation: bestAnimationEver 1s;
+        }
+        .fiche-4 {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(315deg, transparent 75%, #ffffff 0)-10px 0, linear-gradient(45deg, transparent 75%, #b1adad 0)-10px 0, linear-gradient(135deg, #4d4b4b 50%, transparent 0) 0 0, linear-gradient(45deg, #333333 50%, #000000 0) 0 0 #000000;
+            background-size: 20px 20px;
+            border-radius: 50%;
+            border-style: solid;
+            border-color: $border-Color;
+            animation: fadeIn 1s;
+            animation: bestAnimationEver 1s;
+        }
+    }
+}
+
+.pas-btn {
+    font-size: 15pt;
+    font-family: 'Press Start 2p';
+    text-align: center;
+    margin: 5px;
+    min-width: 100px;
+    font-weight: bold;
+    padding: 10px 0 10px 10px;
+    background-color: green;
+    text-shadow: -1px -1px black, 1px 1px white;
+    color: black;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -o-border-radius: 7px;
+    border-radius: 7px;
+    box-shadow: 0 .2em gray;
+    cursor: pointer;
+}
+
+.opgeven-btn {
+    font-size: 15pt;
+    font-family: 'Press Start 2p';
+    text-align: center;
+    margin: 5px;
+    min-width: 100px;
+    font-weight: bold;
+    padding: 10px 0 10px 10px;
+    background-color: rgb(255, 0, 0);
+    text-shadow: -1px -1px black, 1px 1px white;
+    color: black;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -o-border-radius: 7px;
+    border-radius: 7px;
+    box-shadow: 0 .2em gray;
+    cursor: pointer;
+}
+
+
+#feedback {
+    border-radius: 25px;
+}
+
+.fadeIn {
+    animation: fadeIn 1s;
+}
+
+.fadeOut {
+    animation: fadeOut 5s;
+    opacity: 0;
+}
+
+.exitIcon {
+    text-align: right;
+}
+
+
+
+.textColorGray {
+    color: rgb(63, 62, 62)
+}
+
+.button1 {
+    text-align: right;
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.1em solid #000000;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #000000;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.button1:hover {
+    color: #000000;
+    background-color: #a7a1a1;
+}
+
+@media all and (max-width:30em) {
+    .button1 {
+        display: block;
+        margin: 0.4em auto;
+    }
+}
+
+.button-bibber {
+    animation: bibber;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.inline {
+    display: inline-block;
+}
+
+
+
+.leftDiv {
+    text-align: left;
+    display: flex;
+}
+
+@media only screen and (min-width: 768px) {
+    .iconVisable {
+        visibility: visible;
+    }
+    .textSize {
+        font-size: 20px;
+    }
+    .rightDiv {
+        text-align: right;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .iconVisable {
+        visibility: hidden;
+    }
+    .textSize {
+        font-size: 8px;
+    }
+    .rightDiv {
+        text-align: left;
+        display: inline-grid;
+    }
+}

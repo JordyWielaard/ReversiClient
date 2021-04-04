@@ -17,8 +17,8 @@ const html = function (backendPath, filehtml) {
             path.basename = 'index';
             path.extname = ".html";
         }))
-        .pipe(dest('./dist/html'))
-        .pipe(dest(backendPath + "html"));
+        .pipe(dest('./dist/'))
+        .pipe(dest(backendPath));
     };
 };
 

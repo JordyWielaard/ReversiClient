@@ -1,90 +1,184 @@
 <html>
+
 <head>
-<link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine/jasmine_favicon.png">
-<link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine/jasmine.css">
+  <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine/jasmine.css">
 
-<script type="text/javascript" src="jasmine/lib/jasmine/jasmine.js"></script>
-<script type="text/javascript" src="jasmine/lib/jasmine/jasmine-html.js"></script>
-<script type="text/javascript" src="jasmine/lib/jasmine/boot.js"></script>
-<script type="text/javascript" src="app.js"></script>
+  <script type="text/javascript" src="jasmine/lib/jasmine/jasmine.js"></script>
+  <script type="text/javascript" src="jasmine/lib/jasmine/jasmine-html.js"></script>
+  <script type="text/javascript" src="jasmine/lib/jasmine/boot.js"></script>
+  <script type="text/javascript" src="jasmine/lib/jasmine/mock-ajax.js"></script>
+  <script type="text/javascript" src="app.js"></script>
 
-    <!-- link afkomstig van https://cdnjs.com/libraries/jquery/ -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-    <script src="../js/feedbackWidget.js"></script>
-    <script src="../js/Game.js"></script>
-    <script src="js/Game.Reversi.js"></script>
-    <script src="js/Game.Model.js"></script>
-    <script src="js/Game.Data.js"></script>
+  <!-- link afkomstig van https://cdnjs.com/libraries/jquery/ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 
+  <script src="../js/feedbackWidget.js"></script>
+  <script src="../js/Game.js"></script>
+  <script src="../js/Game.Reversi.js"></script>
+  <script src="../js/Game.Model.js"></script>
+  <script src="../js/Game.Data.js"></script>
+  <script src="../dist/js/vendor.js"></script>
+  <script src="../dist/js/templates.js"></script>
+  <script src="../js/Game.Template.js"></script>
+  <script src="../js/Game.Stats.js"></script>
 </head>
+
 <body>
-
-<div id="feedback-success" class="alert alert-success" role="alert">
-    <p>Veel succes met deze module!</p>
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div id="huidigeSpeler" class="inline"></div>
+        </div>
+        <div class="col-12 col-lg-7">
+          <div id="spelBord"></div>
+        </div>
+        <div class="col-12 col-lg-5">
+            <div id="speler1"></div>
+            <div id="speler2"></div>
+            <div id="buttons">
+                <button id="buttonpas" class="pas-btn" type="button">Beurt overslaan</button>
+                <button id="buttonopgeven" class="opgeven-btn" type="button">Opgeven</button>
+                <div id="chart" style="position: relative; height: 300px; width: 600px;"></div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div id="api"></div>
+        </div>
+    </div>
 </div>
 
-<div id="feedback-danger" class="alert alert-danger" role="alert" style="display:none">
-    <p>Pas op voor loslopende bits.</p>
-</div>
 
-<script>
-beforeAll(function(done) {
-  $(function(){
-    done();
-  });
-});
+  <script>
+    var testresponse = {
+      success: {
+        status: 200,
+        contentType: 'text/plain',
+        responseText: '{"bord": "[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]"}'
+      },
+      fail: {
+        status: 404,
+        contentType: 'text/plain',
+        responseText: 'ERROR'
+      }
+    }
+    let baseAddress = 'https://localhost:44346/'
+    var bordFormated = {bord: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,1,2,0,0,0],[0,0,0,2,1,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]};
+    //Zet data voor template
+    var speler1inf = {
+        "aanzet": "Zwart",
+        "speler": "Speler 1",
+        "kleur": "Zwart",
+    }
+    //Zet data voor template
+    var speler2inf = {
+        "aanzet": "Zwart",
+        "speler": "Speler 2",
+        "kleur": "Wit",
+    }
 
-describe("Check if feedback widget is defined", function() {
-  it("Feedback widget is defined", function() {
-    expect($("#feedback-succes")).toBeDefined();
-   })
-});
+    let kleurOmschrijving = {
+          "omschrijving": "Omschrijving",
+          "kleur": "Zwart"
+     }
 
-describe("Check if feedback widget is hidden", function() {
-  it("Feedback widget is hidden", function() {
-    let widget = new FeedbackWidget("feedback-success")
-    widget.hide();
-    expect($("#feedback-success").attr('style')).toBe('display: none;');
-   })
-});
+    beforeAll(function (done) {
+      $(function () {
+        done();
+      });
+    });
 
-describe("A suite", function() {
-  it("contains spec with an expectation", function() {
-    expect(true).toBe(true);
-  });
-});
+    describe("API success test", function () {
+      beforeEach(function () {
+        jasmine.Ajax.install();
+      })
+      afterEach(function () {
+        jasmine.Ajax.uninstall();
+      })
+      it("API retun data", function (done) {
+        jasmine.Ajax.stubRequest("https://localhost:44346/api/spel/b5106fc6-0ae4-46d3-b472-2ead608d7370").andReturn(testresponse.success);
+        Game.Data.getRealData("https://localhost:44346/api/spel/b5106fc6-0ae4-46d3-b472-2ead608d7370").then((data) => {
+          expect(data).toBe(testresponse.success.responseText);
+          done();
+        })
+      })
 
-describe("Application initialisation", function() {
-  it("Method init returns true", function() {
-  	const result = myApp.init();
-    expect(result).toBe(true);
-  });
-});
+      it("API retun fail", function (done) {
+        jasmine.Ajax.stubRequest("https://localhost:44346/api/spel/b5106fc6-0ae4-46d3-b472-2ead608d7370").andReturn(testresponse.fail);
+        Game.Data.getRealData("https://localhost:44346/api/spel/b5106fc6-0ae4-46d3-b472-2ead608d7370")
+          .then((data) => { console.log(data) })
+          .catch((data) => { expect(data.responseText).toBe(testresponse.fail.responseText); done() })
+      })
+    })
 
-describe("Game is globaal", function(){
-  it("Game kan gevonden worden", function(){
-    expect(Game).toBeDefined();
-  });
-});
+    describe("Templates werken", function (){
+      it("Bord wordt geladen", function(){
+        let leeg = $("#spelBord").html();
+        Game.Reversi.printBord(bordFormated);
+        let nietleeg = $("#spelBord").html();
+        expect(nietleeg).not.toBe(leeg)
+      })
+      it("Zet spelers correct", function (){
+        let leeg1 = $("#speler1").html();
+        let leeg2 = $("#speler2").html();
+        Game.Reversi.showSpelers(speler1inf, speler2inf);
+        let nietleeg1 = $("#speler1").html();
+        let nietleeg2 = $("#speler2").html();
+        expect(nietleeg1).not.toBe(leeg1)
+        expect(nietleeg2).not.toBe(leeg2)
+      })
+      it("Omschrijving en kleur worden gezet", function(){
+        let leeg = $("#huidigeSpeler").html();
+        Game.Reversi.huidigeSpeler(kleurOmschrijving)
+        let nietleeg = $("#huidigeSpeler").html();
+        expect(nietleeg).not.toBe(leeg)
+      })
+    })
 
-describe("Game is beschikbaar met function init", function(){
-  it("Game is beschikbaar", function(){
-    expect(Game.init()).toBeUndefined();
-  });
-});
+    describe("Gamestate ophalen werkt", function (){
+      it("Game wordt opgehaald", function (done){
+        Game.Data.init("development")
+        Game.Model.getGameState("b5106fc6-0ae4-46d3-b472-2ead608d7370")
+        .then((data) => { expect(data).toBe(0); done();})     
+      })
+      it("Geen token gaat naar catch", function (done){
+        Game.Model.getGameState()
+        .then((data) => {})
+        .catch((data) => {expect(data).toBe("Token is leeg"); done();})  
+      })
+    })
 
-describe("Game is beschikbaar met function init", function(){
-  it("Game.Data.init is beschikbaar", function(){
-    expect(Game.Data.init()).toBeUndefined();
-  });
-});
-describe("Game is beschikbaar met function init", function(){
-  it("Game.Model,init is beschikbaar", function(){
-    expect(Game.Model.init()).toBeUndefined();
-  });
-});
-</script>
+    describe("Game is globaal", function () {
+      it("Game kan gevonden worden", function () {
+        expect(Game).toBeDefined();
+      });
+    });
+
+    describe("Game is beschikbaar met function init", function () {
+      it("Game is beschikbaar", function () {
+        expect(Game.init).toBeDefined();
+      });
+    });
+
+    describe("Game is beschikbaar met function init", function () {
+      it("Game.Data.init is beschikbaar", function () {
+        expect(Game.Data.init).toBeDefined();
+      });
+    });
+    describe("Game is beschikbaar met function init", function () {
+      it("Game.Model.init is beschikbaar", function () {
+        expect(Game.Model.init).toBeDefined();
+      });
+    });
+
+    describe("Game is beschikbaar met function init", function () {
+      it("Game.Stats.init is beschikbaar", function () {
+        expect(Game.Stats.init).toBeDefined();
+      });
+    });
+  </script>
 
 
 </body>
+
 </html>

@@ -5,12 +5,14 @@ module.exports = {
             'js/**/*.js',
             'js/*.js'
         ],
-        
+
+        jsOrder: [
+            'js/Game.js',
+            'js/*.js'
+        ], 
+
         sass: [
-            './css/*.scss',
-            './css/sass/*.scss',
-            './css/**/*.scss',
-            './css/*.css'
+            './css/**/*.scss'
         ],
 
         html: [
@@ -30,6 +32,8 @@ module.exports = {
            ], 
 
     },
+
+
     voornaam: 'Jordy Wielaard',
 
   

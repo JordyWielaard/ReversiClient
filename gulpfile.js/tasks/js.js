@@ -10,9 +10,10 @@ const fn = function (filesJs, filesJsOrder, backendPath) {
             .pipe(order(filesJsOrder, { base: './' }))
             .pipe(concat('debug-app.js'))
             .pipe(dest('./dist/js'))
-            .pipe(babel({
-                presets: ['@babel/preset-env']
-            }))    
+            // .pipe(babel({
+            //     presets: ['@babel/preset-env']
+            // }))    
+            .pipe(order(filesJsOrder, { base: './' }))
             .pipe(uglify({compress: true})) 
             .pipe(concat('app.js'))                   
             .pipe(dest('./dist/js'))

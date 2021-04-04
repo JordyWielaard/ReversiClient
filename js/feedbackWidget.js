@@ -37,7 +37,7 @@ class FeedbackWidget{
     }
 
     show(message, type){
-        $("#feedback").text(message)
+        $("#feedbackText").text(message)
         if(type == "success"){
             $("#feedback").removeClass("alert alert-danger")
             $("#feedback").addClass("alert alert-success")

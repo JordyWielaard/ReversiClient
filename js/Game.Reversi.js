@@ -1,63 +1,79 @@
-Game.Reversi = (function(url) {
-    console.log('hallo, vanuit module Reversi')
+Game.Reversi = (function() {
 
-    //Configuratie en state waarden
-    let configMap = {
-        apiUrl: url
-    };
-    
-    let bord = [
-        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen",
-        
-        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen",
-        
-        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen",
-        
-        "Geen, Geen, Geen, Wit, Zwart, Geen, Geen, Geen",
-        
-        "Geen, Geen, Geen, Zwart, Wit, Geen, Geen, Geen",
-        
-        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen",
-        
-        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen",
-        
-        "Geen, Geen, Geen, Geen, Geen, Geen, Geen, Geen"
-        
-        ];
-
-    const showFiche = function(bordTileId){        
-        $("#"+bordTileId).append("<div class=\"ficheBlack\"></div>")
+    //Laat pokemon zien
+    const _apiDataParse = function(template, data){
+        $("#api").html(Game.Template.parseTemplate(template, data));
     }
 
-
-    const _printBord = function(){
-        
-        $("body").append("<div id=\"bord\">")
-        for(let i = 0; i < bord.length; i++){
-            var kleur = bord[i].split(", ");
-
-            for(let j = 0; j < kleur.length; j++){
-                $("#bord").append("<div id=\""+i+j+"\" class=\"bordTile\" onclick=\"Game.Reversi.showFiche(this.id)\"></div>")
-                if(kleur[j] == 'Zwart'){
-                    $("#"+i+j).append("<div class=\"ficheBlack\"></div>")
+    //Plaatst fiche op het bord
+    const _showFiche = function(bordTegel){
+        $("#bord").children().each(function(i, el){
+            if(bordTegel == el){
+                let x = i % 8
+                let y = ~~(i / 8);
+                let data = {
+                    X: x,
+                    Y: y,
+                    SpelerToken: Game.Model.getSpelerToken(),
+                    SpelToken: Game.Model.getSpelToken(),
+                    Pas: false
                 }
-                if(kleur[j] == 'Wit'){
-                    $("#"+i+j).append("<div class=\"ficheWhite\"></div>")
-                }
+                Game.Model.postZet(data)   
             }
+        })     
+    }
+    //Click methode voor het overslaan van een beurt
+    const _pas = function(){
+        let data = {
+            X: 0,
+            Y: 0,
+            SpelerToken: Game.Model.getSpelerToken(),
+            SpelToken: Game.Model.getSpelToken(),
+            Pas: true
         }
+        Game.Model.postZet(data)   
+    } 
+    //Click methode voor het opgeven van het spel
+    const _opgeven = function(){
+        let data = {
+            SpelerToken: Game.Model.getSpelerToken(),
+            SpelToken: Game.Model.getSpelToken(),
+        }
+        Game.Model.postOpgeven(data)   
+    } 
+
+    //Laat spelers zien op basis van spelers template
+    const _showSpelers = function(data1, data2){
+        $("#speler1").html(Game.Template.parseTemplate("spelers", data1))
+        $("#speler2").html(Game.Template.parseTemplate("spelers", data2))
+    }
+    //Laat bord zien op basis van bord template
+    const _printBord = function(bord){
+        $("#spelBord").html(Game.Template.parseTemplate("bord", bord));
+    }
+
+    //Laat huidige speler zien op basis van huidigeSpeler template
+    const _huidigeSpeler = function(data){
+        $("#huidigeSpeler").html(Game.Template.parseTemplate("huidigeSpeler", data))
     }
 
 
     // Private function init
     const privateInit = function(){
-        console.log(configMap.apiUrl);
+        $("#buttonpas").click(_pas)
+        $("#buttonopgeven").click(_opgeven)
+        Game.Data.init("production")
     };
     
     // Waarde/object geretourneerd aan de outer scope
     return {
         init: privateInit,
         printBord: _printBord,
-        showFiche: showFiche
-    } ;   
-})('/api/url');
+        showFiche: _showFiche,
+        pas: _pas,
+        opgeven: _opgeven,
+        apiDataParse: _apiDataParse,
+        showSpelers: _showSpelers,
+        huidigeSpeler: _huidigeSpeler
+    };   
+})();

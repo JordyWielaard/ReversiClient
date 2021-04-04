@@ -1,0 +1,9 @@
+<div id="bord">
+    {{#each bord}}
+        {{#each this}}
+        <div id="{{@index}}"class="bordTegel" onclick="Game.Reversi.showFiche(this)">
+            {{>fiche this}}
+        </div>
+        {{/each}}
+    {{/each}}
+</div>
